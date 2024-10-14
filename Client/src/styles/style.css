@@ -1,0 +1,10 @@
+div a.active{
+    background-color: #f8f9fa;
+     width: 5.5rem;
+     height: 1.75rem;
+     border-radius: 9999px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+   font-weight: bold;
+   }
