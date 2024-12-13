@@ -6,11 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import checkSessionExpiry from '@/sessionExpiry/sessionExpiry';
+import { ClipLoader } from 'react-spinners';
 const CreateShop = () => {
   // const userId = useSelector((state) => state.user.userId)
-  const {id} = useParams()
-  
-  
+  const { id } = useParams()
+
+  const [loading, setLoading] = useState(false)
   const token = useSelector((state) => state.user.token)
   const navigation = useNavigate()
   const [productDetails, setproductDetails] = useState({
@@ -41,6 +42,7 @@ const CreateShop = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setLoading(true)
       const formdata = new FormData();
       formdata.append('p_name', productDetails.p_name)
       formdata.append('p_type', productDetails.p_type)
@@ -54,8 +56,8 @@ const CreateShop = () => {
           'Authorization': `Bearer ${token}`
         }
       })
-      console.log(response);
-      
+
+
       if (response.status === 201) {
         setproductDetails({
           p_name: '',
@@ -73,6 +75,9 @@ const CreateShop = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.message)
+    }
+    finally {
+      setLoading(false)
     }
   };
   const handleFileChange = (e) => {
@@ -113,7 +118,7 @@ const CreateShop = () => {
             </div>
             <div className="mb-3">
               <label className="block text-orange-700 text-sm font-semibold mb-1" htmlFor="postalCode">
-              Product Type
+                Product Type
               </label>
               <input
                 id="p_type"
@@ -199,12 +204,17 @@ const CreateShop = () => {
                 required
               />
             </div>
-            <button
-              type="submit"
-              className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition duration-300 font-semibold text-sm"
-            >
-              Register product
-            </button>
+            {loading ? (
+              <button className=' bg-orange-500 w-full h-10'><ClipLoader color="#ffffff" loading={loading} size={20} /></button>
+            ) : (
+              <button
+                type="submit"
+                className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition duration-300 font-semibold text-sm"
+              >
+                Register product
+              </button>
+            )}
+
           </form>
         </div>
       </div>

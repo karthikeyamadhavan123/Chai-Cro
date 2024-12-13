@@ -188,10 +188,41 @@ const editShopProducts = async (req, res) => {
         return res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 };
+const getProductInformation=async(req,res) => {
+try {
+    const { productId } = req.params;
+    if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
+        return res.status(400).json({ message: 'Invalid or missing userId' });
+        
+    }
+    const product = await Product.findById(productId)
+            .select('p_name p_image description stock category price') // Product fields
+            .populate({
+                path: 'comments',
+                select: 'comment', // Select specific fields from comments if needed
+            })
+            .populate({
+                path: 'ratings',
+                select: 'rating', // Select specific fields from ratings if needed
+            });
 
+       
+    if (!product) {
+        return res.status(404).json({ message: 'product not found' });
+    }
+    
+    return res.status(200).json({product})
+} catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: 'Internal Server Error', error: error.message });
+
+    
+}
+}
 module.exports={
     createProducts,
     getShopProducts,
     deleteProducts,
-    editShopProducts
+    editShopProducts,
+    getProductInformation
 }

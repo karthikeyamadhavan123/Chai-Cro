@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const useFetch = (url, token) => {
+const useProducts = (url, token) => {
     const [shopProducts, setShopProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -15,6 +15,8 @@ const useFetch = (url, token) => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
+                
+                
              
               setShopProducts(response.data.Products.shop_products)
               
@@ -33,4 +35,4 @@ const useFetch = (url, token) => {
     return { shopProducts, loading, error ,setShopProducts};
 };
 
-export default useFetch;
+export default useProducts;

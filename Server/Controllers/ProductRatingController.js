@@ -1,9 +1,12 @@
 const Product = require('../models/productSchema');
 const User = require('../models/userSchema');
 const ProductRating=require('../models/ProductRatingSchema')
+
 const addProductRating=async(req,res)=>{
     try {
         const { productId, userId } = req.params;
+        
+        
         const { rating } = req.body;
 
         if (!productId) {
@@ -16,7 +19,7 @@ const addProductRating=async(req,res)=>{
             return res.status(400).json({ error: 'rating is required and cannot be empty' });
         }
 
-        const product = await Shop.findById(productId);
+        const product = await Product.findById(productId);
         if (!product) {
             return res.status(404).json({ error: 'product not found' });
         }
@@ -29,7 +32,7 @@ const addProductRating=async(req,res)=>{
         const newProductRating = new ProductRating({
             rating:rating,
             user: userId,
-            product: shopId
+            product: productId
         });
 
         await newProductRating.save();
@@ -51,9 +54,16 @@ const getAllRatingofProduct=async(req,res)=>{
             return res.status(400).json({ error: 'productId is required' });
         }
         const productRatings = await Product.findById(productId).populate({
-            path: 'ratings',
-            select: '_id rating'
-        })
+            path: 'ratings',  // Populates the 'ratings' field in the Product model
+            select: '_id rating',  // Only selects the _id and rating fields from the Rating model
+            populate: {
+              path: 'user',  // For each rating, populates the related 'user' field
+              select: '_id username image'  // Only selects _id, username, and image from the User model
+            }
+          });
+         
+          
+          
         if (!productRatings) {
             return res.status(404).json({ error: 'product not found' });
         }

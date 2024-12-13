@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const CommentSchema = new Schema({
+const ProductCommentSchema = new Schema({
     comment: {
         type: String,
         required: true,
@@ -20,5 +20,5 @@ const CommentSchema = new Schema({
     
 }, { timestamps: true }); // adds createdAt and updatedAt automatically
 
-const Comment=mongoose.model('Comment',CommentSchema);
-module.exports=Comment
+const ProductComment=mongoose.model('ProductComment',ProductCommentSchema);
+module.exports=ProductComment

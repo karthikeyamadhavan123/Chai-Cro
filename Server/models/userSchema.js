@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-<<<<<<< HEAD
-=======
 const Shop = require('./ShopSchema');
 const Product = require('./productSchema');
 const ShopComment = require('./ShopCommentSchema');
@@ -8,7 +6,6 @@ const ShopRating = require('./ShopRating');
 const ProductComment=require('./ProductCommentSchema')
 const ProductRating=require('./ProductRatingSchema')
 const Address=require('./addressSchema')
->>>>>>> 3e5badb (Your commit message)
 const { Schema } = mongoose;
 const userSchema = new Schema({
     username: {
@@ -52,11 +49,6 @@ const userSchema = new Schema({
     }]
 }, {timestamps: true});
 
-<<<<<<< HEAD
-
-const User = mongoose.model("User", userSchema);
-module.exports = User;
-=======
 userSchema.post('findOneAndDelete',async(doc)=>{
     const userId=doc._id
     try {
@@ -73,4 +65,3 @@ userSchema.post('findOneAndDelete',async(doc)=>{
 })
 const User = mongoose.model("User", userSchema);
 module.exports = User;
->>>>>>> 3e5badb (Your commit message)

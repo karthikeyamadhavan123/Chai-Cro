@@ -17,6 +17,7 @@ const useFetch = (url, token) => {
                 });
              
               
+              
                 setShop(response.data.allShops); // assuming the data is in response.data
             } catch (err) {
                 setError(err.message || "Something went wrong");

@@ -1,7 +1,7 @@
 const Shop = require('../models/ShopSchema');
 const User = require('../models/userSchema');
-const ShopRating=require('../models/ShopRating')
-const addRating=async(req,res)=>{
+const ShopRating = require('../models/ShopRating')
+const addRating = async (req, res) => {
     try {
         const { shopId, userId } = req.params;
         const { rating } = req.body;
@@ -27,7 +27,7 @@ const addRating=async(req,res)=>{
         }
 
         const newShopRating = new ShopRating({
-            rating:rating,
+            rating: rating,
             user: userId,
             shop_rating: shopId
         });
@@ -44,7 +44,7 @@ const addRating=async(req,res)=>{
     }
 }
 
-const getAllRatingofShop=async(req,res)=>{
+const getAllRatingofShop = async (req, res) => {
     try {
         const { shop_id } = req.params;
         if (!shop_id) {
@@ -52,19 +52,23 @@ const getAllRatingofShop=async(req,res)=>{
         }
         const shopRatings = await Shop.findById(shop_id).populate({
             path: 'ratings',
-            select: '_id rating'
+            select: '_id rating',
+            populate: {
+                path: 'user',
+                select: 'username image'
+            }
         })
         if (!shopRatings) {
             return res.status(404).json({ error: 'Shop not found' });
         }
-        return res.status(200).json({ success: true, ratings: shopRatings })
+        return res.status(200).json({ success: true, Ratings: shopRatings })
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 }
 
-const editShopRating=async(req,res)=>{
+const editShopRating = async (req, res) => {
     try {
         const { userId, ratingId, shopId } = req.params;
         const { editedRating } = req.body;
@@ -155,7 +159,7 @@ const deleteShopRating = async (req, res) => {
 
 
 
-module.exports={
+module.exports = {
     addRating,
     getAllRatingofShop,
     editShopRating,

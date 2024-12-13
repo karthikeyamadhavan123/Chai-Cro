@@ -8,6 +8,8 @@ const initialState = {
     isLoggedIn: false
 };
 
+
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -36,7 +38,9 @@ export const userSlice = createSlice({
     }
 });
 
+
 // Action creators
 export const { registerUser, loginUser, logoutUser } = userSlice.actions;
+
 
 export default userSlice.reducer;

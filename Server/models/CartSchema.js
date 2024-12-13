@@ -25,20 +25,13 @@ const CartSchema = new Schema({
         required: true,
         default: 0 // calculated based on the items in the cart
     },
-<<<<<<< HEAD
-=======
     totalQuantity:{
         type: Number,
         required: true,
         default: 0 
     }
->>>>>>> 3e5badb (Your commit message)
    
 }, { timestamps: true }); // automatically adds createdAt and updatedAt
 
 const Cart = mongoose.model('Cart', CartSchema);
-<<<<<<< HEAD
 module.exports = Cart;
-=======
-module.exports = Cart;
->>>>>>> 3e5badb (Your commit message)

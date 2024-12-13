@@ -14,10 +14,4 @@ const paymentSchema = new Schema({
 })
 
 const Payment = mongoose.model('Payment', paymentSchema);
-<<<<<<< HEAD
 module.exports = Payment;
-
-
-=======
-module.exports = Payment;
->>>>>>> 3e5badb (Your commit message)

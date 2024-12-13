@@ -7,4 +7,5 @@ router.post('/:id/newproducts',tokenVerification,upload.single('product_image'),
 router.get('/:shop_id/products',tokenVerification,productController.getShopProducts)
 router.delete('/:productId/:shop_id/delete/products',tokenVerification,productController.deleteProducts);
 router.put('/:productId/:shop_id/edit/products',tokenVerification,upload.single('product_image'),productController.editShopProducts);
+router.get('/:productId/product-information',tokenVerification,productController.getProductInformation);
 module.exports = router;

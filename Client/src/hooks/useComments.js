@@ -15,10 +15,12 @@ const useComments = (url, token) => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-             
-             
-              
-                setComments(response.data.comments.shop_comments); // assuming the data is in response.data
+                
+            
+                // Safely access the comments in the response
+               if(response.data){
+                setComments(response.data.comments.shop_comments)
+               }
             } catch (err) {
                 setError(err.message || "Something went wrong");
             } finally {
@@ -26,11 +28,10 @@ const useComments = (url, token) => {
             }
         };
 
-
         fetchShopComments();
     }, [url, token]);
 
-    return { comments, loading, error ,setComments};
+    return { comments, loading, error, setComments };
 };
 
 export default useComments;

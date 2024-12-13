@@ -29,10 +29,6 @@ const productSchema = new Schema({
         default: 0, // Default to zero stock if not provided
     },
     category: {
-<<<<<<< HEAD
-        type: [String],
-        required: true,
-=======
         type: String,
         required: true,
         enum: [
@@ -59,7 +55,6 @@ const productSchema = new Schema({
             "Outdoor Gear"
         ], // Predefined categories
         message: '{VALUE} is not a valid category' // Custom error message for invalid values
->>>>>>> 3e5badb (Your commit message)
     },
     owner: {
         type: Schema.Types.ObjectId,
@@ -77,22 +72,16 @@ const productSchema = new Schema({
     },
     ratings:[{
         type: Schema.Types.ObjectId,
-        ref: "Ratings", // Reference to the Shop schema
+        ref: "ProductRating", // Reference to the Shop schema
         
     }],
     comments:[{
         type: Schema.Types.ObjectId,
-        ref: "Comments",
+        ref: "ProductComment",
     }]
 }, {
     timestamps: true // Automatically adds createdAt and updatedAt fields
 });
 
 const Product = mongoose.model('Product', productSchema);
-<<<<<<< HEAD
 module.exports = Product;
-
-
-=======
-module.exports = Product;
->>>>>>> 3e5badb (Your commit message)

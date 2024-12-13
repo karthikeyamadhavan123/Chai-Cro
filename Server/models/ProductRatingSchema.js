@@ -19,5 +19,5 @@ const ratingSchema=new Schema({
     }
 })
 
-const Rating=mongoose.model('Rating',ratingSchema);
-module.exports=Rating;
+const ProductRating=mongoose.model('ProductRating',ratingSchema);
+module.exports=ProductRating;

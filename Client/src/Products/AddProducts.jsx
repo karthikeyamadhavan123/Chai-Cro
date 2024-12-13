@@ -2,9 +2,11 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const AddProducts = ({shopId}) => {
+  console.log(shopId);
+  
   const navigate=useNavigate();
   const onclick=()=>{
-    navigate(`/${shopId}/product/new`)
+    navigate(`/shop/${shopId}/new`)
   }
   return (
     <>

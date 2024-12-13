@@ -10,19 +10,6 @@ return token.sign(payload,secret,{
 })
 }
 
-<<<<<<< HEAD
-const verifyToken = (inputToken, secret) => {
-    try {
-       
-        
-      const decoded = jwt.verify(inputToken, secret);
-      return decoded.userId;
-    } catch (error) {
-      console.error(error);
-      return null; 
-    }
-  };
-=======
 
 
 const verifyToken = (inputToken, secret) => {
@@ -46,7 +33,6 @@ const verifyToken = (inputToken, secret) => {
 
 module.exports = verifyToken;
 
->>>>>>> 3e5badb (Your commit message)
 
 module.exports={
     createToken,

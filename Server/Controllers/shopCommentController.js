@@ -56,9 +56,12 @@ const getAllCommentofShop = async (req, res) => {
             select: '_id comment',
             populate: {
                 path: 'user',
-                select: 'username image'
-            }
-        })
+                select: 'username image',
+            },
+        });
+        
+        // Log to verify the structure
+       
 
         if (!shopComment) {
             return res.status(404).json({ error: 'Shop not found' });
@@ -74,6 +77,8 @@ const editShopComment = async (req, res) => {
     try {
         const { userId, commentId, shopId } = req.params;
         const { editedComment } = req.body;
+     
+        
 
         if (!userId) {
             return res.status(400).json({ error: 'userId is required' });
@@ -103,7 +108,7 @@ const editShopComment = async (req, res) => {
             return res.status(404).json({ error: 'comment not found' });
         }
         if (!comment.user.equals(user._id) || !comment.shop.equals(shop._id)) {
-            return res.status(403).json({ error: 'You are not authorized edit comment' });
+            return res.status(403).json({ success:false ,message: 'You are not authorized edit comment'});
         }
         comment.comment = editedComment
         await comment.save()

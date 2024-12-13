@@ -11,15 +11,20 @@ const LazyLogin = React.lazy(() => import('./Forms/Login'))
 const LazyForgotPassword = React.lazy(() => import('./Forms/ForgotPassword'))
 const LazyResetPassword = React.lazy(() => import('./Forms/ResetPassword'))
 const LazyLogout = React.lazy(() => import('./Forms/Logout'))
-const LazyProfile = React.lazy(() => import('./Profile/Profile'))
+const LazyProfile = React.lazy(() => import('./Profile/Profile.jsx'))
 const LazyShop = React.lazy(() => import('./Shop/shop'))
-const LazyShopProducts = React.lazy(() => import('./Products/Products'))
+const LazyShopProducts = React.lazy(() => import('./Products/main'))
 const LazyCreateShops=React.lazy(()=>import('./Shop/CreateShop'))
 const LazyCreateProduct=React.lazy(()=>import('./Products/CreateProduct'))
 import Protected from './Protected Routes/Protected';
 const LazyShopComments=React.lazy(()=>import('./Shop/ShopComments'))
 const LazyShopRatings=React.lazy(()=>import('./Shop/ShopRating'))
 import AdminProtection from './Protected Routes/AdminProtection';
+import Cart from './Cart/Cart';
+import placeOrder from './Cart/placeOrder';
+const LazyProductComment=React.lazy(()=>import('./Products/ProductComment'))
+const LazyProductRating=React.lazy(()=>import('./Products/ProductRating'))
+const SinglePage=React.lazy(()=>import('./Products/SingleProductPage'))
 function App() {
   return (
     <>
@@ -47,8 +52,12 @@ function App() {
                 <Route path=':shopId/comments' element={<Protected Component={LazyShopComments}/>}/>
                 <Route path=':shopId/ratings' element={<Protected Component={LazyShopRatings}/>}/>
               </Route>
-
+              <Route path='/product-comments/:productId/comments' element={<Protected Component={LazyProductComment}/>}/>
+              <Route path='/product-ratings/:productId/ratings' element={<Protected Component={LazyProductRating}/>}/>
               <Route path='/my-profile' element={<LazyProfile />} />
+              <Route path=':productId/product-information' element={<Protected Component={SinglePage}/>} />
+              <Route path='/cart' element={<Protected Component={Cart}/>}/>
+              <Route path='/order' element={<Protected Component={placeOrder}/>}/>
             </Routes>
           </Suspense>
         </BrowserRouter>

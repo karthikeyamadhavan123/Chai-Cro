@@ -16,8 +16,9 @@ const useRatings = (url, token) => {
                     },
                 });
              
+              const {ratings}=response.data.Ratings
               
-                setratings(response.data.allShops); // assuming the data is in response.data
+                setratings(ratings); // assuming the data is in response.data
             } catch (err) {
                 setError(err.message || "Something went wrong");
             } finally {
@@ -32,4 +33,4 @@ const useRatings = (url, token) => {
     return { ratings, loading, error ,setratings};
 };
 
-export default useComments;
+export default useRatings;

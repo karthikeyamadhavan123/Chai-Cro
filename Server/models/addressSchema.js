@@ -7,13 +7,10 @@ const addressSchema=new Schema({
     state: { type: String, required: true },
     postalCode: { type: String, required: true },
     country: { type: String, required: true },
-<<<<<<< HEAD
-=======
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",
     }
->>>>>>> 3e5badb (Your commit message)
 })
 
 const Address=mongoose.model('Address',addressSchema);

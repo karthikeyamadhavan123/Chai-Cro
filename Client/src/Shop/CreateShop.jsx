@@ -6,10 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import checkSessionExpiry from '@/sessionExpiry/sessionExpiry';
+import { ClipLoader } from 'react-spinners';
 const CreateShop = () => {
     const userId = useSelector((state) => state.user.userId)
     const token = useSelector((state) => state.user.token)
-    const navigation=useNavigate()
+    const [loading, setLoading] = useState(false)
+    const navigation = useNavigate()
     const [shopDetails, setShopDetails] = useState({
         shop_name: '',
         postalCode: '',
@@ -17,13 +19,13 @@ const CreateShop = () => {
         district: '',
         shop_image: null,
     });
-useEffect(()=>{
-    const check = checkSessionExpiry();
-    if (check) {
-      nav('/api/login');
-      return;
-    }
-})
+    useEffect(() => {
+        const check = checkSessionExpiry();
+        if (check) {
+            nav('/api/login');
+            return;
+        }
+    })
     const handleChange = (e) => {
         const { name, value } = e.target;
         setShopDetails({
@@ -36,6 +38,7 @@ useEffect(()=>{
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
+            setLoading(true)
             const formdata = new FormData();
             formdata.append('shop_name', shopDetails.shop_name)
             formdata.append('postalCode', shopDetails.postalCode)
@@ -47,22 +50,25 @@ useEffect(()=>{
                     'Authorization': `Bearer ${token}`
                 }
             })
-            if(response.status===201){
-                
+            if (response.status === 201) {
+
                 setShopDetails({
-                    shop_name:'',
-                    shop_address:'',
-                    shop_image:null,
-                    district:'',
-                    postalCode:''
+                    shop_name: '',
+                    shop_address: '',
+                    shop_image: null,
+                    district: '',
+                    postalCode: ''
                 })
                 navigation('/shop')
             }
-            
-            
+
+
         } catch (error) {
             console.log(error);
             toast.error(error.message)
+        }
+        finally {
+            setLoading(false)
         }
     };
     const handleFileChange = (e) => {
@@ -80,7 +86,7 @@ useEffect(()=>{
                 <meta name="description" content="Shop" />
                 <meta name="keywords" content="ChaiCro, Shop new" />
             </Helmet>
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-orange-400 to-yellow-500">
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-orange-400 to-yellow-500 font-raleway">
                 <div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-lg border border-orange-300">
                     <h2 className="text-3xl font-bold text-orange-600 mb-4 text-center tracking-wide">
                         Register Shop
@@ -161,14 +167,20 @@ useEffect(()=>{
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition duration-300 font-semibold text-sm"
+                            className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition duration-300 font-semibold text-sm flex justify-center items-center"
+                            disabled={loading} // Disable button while loading
                         >
-                            Register Shop
+                            {loading ? (
+                                <ClipLoader color="#ffffff" loading={loading} size={20} />
+                            ) : (
+                                "Register Shop"
+                            )}
                         </button>
+
                     </form>
                 </div>
             </div>
-            <ToastContainer/>
+            <ToastContainer />
         </>
     );
 };

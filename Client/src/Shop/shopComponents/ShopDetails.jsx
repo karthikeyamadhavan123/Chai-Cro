@@ -14,6 +14,8 @@ const ShopDetails = () => {
   const token = useSelector((state) => state.user.token);
   const admin = useSelector((state) => state.user.userType);
   const userId = useSelector((state) => state.user.userId)
+ 
+  
   const url = `http://localhost:8080/shop/allShops`;
   const { shop, loading, error, setShop } = useFetch(url, token);
   const [hoveredShop, sethoveredShop] = useState(null);
@@ -229,22 +231,25 @@ const ShopDetails = () => {
                 <p className='text-gray-400 text-sm'>
                   <strong>Address:</strong> {shop.shop_address}
                 </p>
+                {/* <p>{shop.shop_owner}</p> */}
                 <p className='text-gray-400 text-sm'>
                   <strong>Postal Code:</strong> {shop.postalCode}
                 </p>
+                
                 <p className='text-gray-400 text-sm'>
                   <strong>District:</strong> {shop.district}
                 </p>
-                {admin === 'admin' ?
-                  <div className='flex gap-5 mt-4'>
+                {(admin === 'admin' && userId===shop.shop_owner._id) ?
+                  (<div className='flex gap-5 mt-4'>
                     <button className='bg-green-300 mb-2 h-10 w-20 rounded-full hover:text-white hover:ease-out hover:bg-green-400' onClick={() => handleEdit(shop)}>
                       Edit
                     </button>
                     <button className='bg-red-500 h-10 w-20 rounded-full hover:text-white hover:ease-out hover:bg-red-400' onClick={() => handleDeletion(shop._id)}>
                       Delete
                     </button>
-                  </div> :
-                  <div className='flex flex-col gap-3'>
+                  </div>) :
+                  (<div className='flex flex-col gap-3'>
+                    
                     <div className='flex gap-5 mt-4'>
                       <button className='bg-cyan-400 mb-2 h-10 w-32 rounded-full hover:text-white hover:ease-out hover:bg-cyan-300' onClick={() => handleadd(shop)}>
                         Add Comment
@@ -262,7 +267,7 @@ const ShopDetails = () => {
                       </button>
                     </div>
 
-                  </div>}
+                  </div>)}
               </div>
             </div>
           ))}

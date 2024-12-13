@@ -139,12 +139,17 @@ const getCartItems = async (req, res) => {
             return res.status(403).json({ success: false, message: "Your are not allowed to view" });
         }
         let cart = await Cart.findOne({ user: userId }).populate('items.product')
+        let Cartprice=cart?.totalPrice
+        let cartquantity=cart?.totalQuantity
         let populateCart = cart.items.map(item => {
             return item
         })
+        if(populateCart){
+            return res.status(200).json({ success: true, cart: populateCart,cartquantity,Cartprice })
+        }
 
 
-        return res.status(200).json({ success: true, cart: populateCart })
+       
     } catch (error) {
         console.log(error);
         res.status(500).send('Internal Server Error');

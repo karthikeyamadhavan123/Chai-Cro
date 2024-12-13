@@ -51,10 +51,17 @@ const getAllCommentofProduct = async (req, res) => {
         if (!productId) {
             return res.status(400).json({ error: 'productId is required' });
         }
-        const productComment = await Product.findById(productId).populate({
-            path: 'comments',
-            select: '_id comment'
-        })
+
+        const productComment = await Product.findById(productId)
+            .populate({
+                path: 'comments',
+                select: '_id comment',
+                populate: {
+                    path: 'user',
+                    select: '_id username', // Fetch only the user _id and username
+                },
+            });
+
         if (!productComment) {
             return res.status(404).json({ error: 'Shop not found' });
         }
@@ -68,7 +75,7 @@ const getAllCommentofProduct = async (req, res) => {
 const editProductComment = async (req, res) => {
     try {
         const { userId, commentId, productId } = req.params;
-        const { editedComment } = req.body;
+        const { editedCommentText} = req.body;
 
         if (!userId) {
             return res.status(400).json({ error: 'userId is required' });
@@ -79,7 +86,7 @@ const editProductComment = async (req, res) => {
         if (!productId) {
             return res.status(400).json({ error: 'shopId is required' });
         }
-        if (!editedComment) {
+        if (!editedCommentText) {
             return res.status(400).json({ error: 'Comment is required' });
         }
 
@@ -100,7 +107,7 @@ const editProductComment = async (req, res) => {
         if (!comment.user.equals(user._id) || !comment.product.equals(product._id)) {
             return res.status(403).json({ error: 'You are not authorized edit comment' });
         }
-        comment.comment = editedComment
+        comment.comment = editedCommentText
         await comment.save()
         return res.status(200).json({ success: true, message: "successfully edited product comment" })
     } catch (error) {
@@ -130,7 +137,7 @@ const deleteProductComment = async (req, res) => {
             return res.status(404).json({ error: 'user not found' });
         }
 
-        const product = await Shop.findById(productId);
+        const product = await Product.findById(productId);
         if (!product) {
             return res.status(404).json({ error: 'product not found' });
         }
